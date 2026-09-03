@@ -1,0 +1,61 @@
+:root{
+  --bg: #000;
+}
+
+*{ box-sizing: border-box; }
+
+html, body{
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: var(--bg);
+}
+
+main{
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6vh 6vw;
+}
+
+.sleeve{
+  position: relative;
+  width: min(88vh, 90vw, 720px);
+  aspect-ratio: 1 / 1;
+}
+
+.sticker{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none; /* clicks are handled on .sleeve via alpha hit-testing */
+  outline-offset: 6px;
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity .5s cubic-bezier(.4,0,.2,1),
+              transform .5s cubic-bezier(.4,0,.2,1),
+              filter .5s cubic-bezier(.4,0,.2,1);
+  will-change: opacity, transform, filter;
+}
+
+.sticker:focus-visible{
+  outline: 1px solid rgba(255,255,255,.6);
+}
+
+/* state applied by JS once something is focused */
+.sleeve.active .sticker{
+  filter: grayscale(1) brightness(.35);
+}
+
+.sleeve.active .sticker.is-focused{
+  filter: none;
+  transform: scale(1.015);
+  z-index: 30 !important;
+}
+
+@media (prefers-reduced-motion: reduce){
+  .sticker{ transition: none; }
+}
